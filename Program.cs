@@ -9,7 +9,7 @@ namespace TelegramBotExperiments
 
     class Program
     {
-        static ITelegramBotClient bot = new TelegramBotClient("5464243937:AAGvwcbuW5Yqre9D-2_XKr2_Yw3YDwP1qb8");
+        static ITelegramBotClient bot = new TelegramBotClient("TOKEN");
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
