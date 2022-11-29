@@ -52,8 +52,7 @@ namespace TelegramBotExperiments
                     }
                     else if(message.Chat.Id == -1001576440434)
                     {
-                        /*var msg = await botClient.SendTextMessageAsync(message.Chat, "Расписание можно генерировать только если вы не пидоры, а вы кто? Правильно. Пидоры. Нехуй было банить.");
-                    */
+                        
                     }
                     else
                     {
@@ -88,8 +87,7 @@ namespace TelegramBotExperiments
                     }
                     else if(message.Chat.Id == -1001576440434)
                     {
-                        /*var msg = await botClient.SendTextMessageAsync(message.Chat, "Расписание можно генерировать только если вы не пидоры, а вы кто? Правильно. Пидоры. Нехуй было банить.");
-                    */
+                        
                     }
                     else
                     {
