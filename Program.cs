@@ -6,6 +6,9 @@ using Telegram.Bot.Types.Enums;
 using System.Net.NetworkInformation;
 using Bot.DateManagment;
 using Bot.Logging;
+using File = System.IO.File;
+using System.Text;
+using Tomlyn;
 
 namespace Bot
 {
@@ -81,7 +84,7 @@ namespace Bot
                         message.Chat.Id,
                         message.Text));
                     if (message.Chat.Id == -1001840161407 || message.Chat.Id == -1001576440434)
-                    { //946530105
+                    {
                         var ping = new Ping();
                         var source = new Uri("https://cist.nure.ua/");
                         var isAlive = ping.SendPingAsync(source.Host, 500);
@@ -117,7 +120,31 @@ namespace Bot
 
         static void Main(string[] args)
         {
-            bot = new TelegramBotClient("5464243937:AAGvwcbuW5Yqre9D-2_XKr2_Yw3YDwP1qb8");
+            if (!File.Exists("config.toml"))
+            {
+                Console.Write("Please enter the token from the bot: ");
+                string tokenBot = Console.ReadLine();
+
+                using (FileStream fstream = new FileStream("config.toml", FileMode.OpenOrCreate))
+                {
+                    string configText =
+                            String.Format("botToken = '{0}'",
+                        tokenBot);
+                    Console.WriteLine(configText);
+                    byte[] buffer = Encoding.Default.GetBytes(configText);
+                    fstream.Write(buffer, 0, buffer.Length);
+                }
+            }
+            using (FileStream fstream = File.OpenRead("config.toml"))
+            {
+                byte[] buffer = new byte[fstream.Length];
+                fstream.Read(buffer, 0, buffer.Length);
+                string textFromFile = Encoding.Default.GetString(buffer);
+
+                var model = Toml.ToModel(textFromFile);
+                bot = new TelegramBotClient((string) model["botToken"]!);;
+            }
+
             Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
             
             var cts = new CancellationTokenSource();
