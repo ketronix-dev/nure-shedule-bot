@@ -117,7 +117,7 @@ namespace Bot
 
         static void Main(string[] args)
         {
-            bot = new TelegramBotClient("5464243937:AAGvwcbuW5Yqre9D-2_XKr2_Yw3YDwP1qb8");
+            bot = new TelegramBotClient("TOKEN");
             Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
             
             var cts = new CancellationTokenSource();
