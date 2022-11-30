@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using HtmlAgilityPack;
+using Bot.DateManagment;
 
 public class Service
 {
@@ -169,29 +170,31 @@ public class Service
         var parser = new CistHtmlParser();
         var result = parser.ParseAsSequence(html).ToList();
 
-        var message = $"Расписание на: {$"{GetWeek()[0].Day}.{GetWeek()[0].Month}.{GetWeek()[0].Year} - {GetWeek()[5].Day}.{GetWeek()[5].Month}.{GetWeek()[5].Year}"} \n --------------------------------------- \n";
+        var week = Date.GetWeek();
 
-        var monday = $"\n \n Понедельник | {GetWeek()[0].Day}.{GetWeek()[0].Month}.{GetWeek()[0].Year} \n";
-        var tuesday = $"\n \n Вторник | {GetWeek()[1].Day}.{GetWeek()[1].Month}.{GetWeek()[1].Year} \n";
-        var wednesday = $"\n \n Среда | {GetWeek()[2].Day}.{GetWeek()[2].Month}.{GetWeek()[2].Year} \n";
-        var thurdday = $"\n \n Четверг | {GetWeek()[3].Day}.{GetWeek()[3].Month}.{GetWeek()[3].Year} \n";
-        var friday = $"\n \n Пятница | {GetWeek()[4].Day}.{GetWeek()[4].Month}.{GetWeek()[4].Year} \n";
+        var message = $"Расписание на: {$"{week[0]} - {week[4]}"} \n --------------------------------------- \n";
+
+        var monday = $"\n \n Понедельник | {week[0]} \n";
+        var tuesday = $"\n \n Вторник | {week[1]} \n";
+        var wednesday = $"\n \n Среда | {week[2]} \n";
+        var thurdday = $"\n \n Четверг | {week[3]} \n";
+        var friday = $"\n \n Пятница | {week[4]} \n";
         
         foreach (var i in result)
         {
-            if (i.Date == GetWeek()[0])
+            if (i.Date == DateOnly.ParseExact(week[0], "d.M.yyyy"))
             {
                 monday += GetEventHtml(i);
-            } else if (i.Date == GetWeek()[1])
+            } else if (i.Date == DateOnly.ParseExact(week[1], "d.M.yyyy"))
             {
                 tuesday += GetEventHtml(i);
-            }else if (i.Date == GetWeek()[2])
+            }else if (i.Date == DateOnly.ParseExact(week[2], "d.M.yyyy"))
             {
                 wednesday += GetEventHtml(i);
-            }else if (i.Date == GetWeek()[3])
+            }else if (i.Date == DateOnly.ParseExact(week[3], "d.M.yyyy"))
             {
                 thurdday += GetEventHtml(i);
-            }else if (i.Date == GetWeek()[4])
+            }else if (i.Date == DateOnly.ParseExact(week[3], "d.M.yyyy"))
             {
                 friday += GetEventHtml(i);
             }
@@ -200,18 +203,5 @@ public class Service
         message += monday + tuesday + wednesday + thurdday + friday;
         
         return message;
-    }
-
-
-    public static DateOnly[] GetWeek()
-    {
-        DateOnly startOfWeek = DateOnly.FromDateTime(DateTime.Today.AddDays(
-            (int) CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - 
-            (int) DateTime.Today.DayOfWeek));
-
-        var result = Enumerable.Range(1, 6).Select(i => startOfWeek
-            .AddDays(i)).ToArray();
-        
-        return result;
     }
 }
