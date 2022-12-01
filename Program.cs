@@ -102,7 +102,7 @@ namespace Bot
 
                         if (isAlive.Result.Status == IPStatus.Success)
                         {
-                            var shedule = Service.GetCistShedule("simple.html");
+                            var shedule = Service.GetCistShedule($"./day-{day}.html");
                             var msg = await botClient.SendTextMessageAsync(message.Chat, shedule, ParseMode.Html,
                                 disableWebPagePreview: true);
                         }

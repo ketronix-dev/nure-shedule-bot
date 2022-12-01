@@ -10,7 +10,7 @@ public class Date
             (int) CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - 
             (int) DateTime.Today.DayOfWeek));
 
-        var result = Enumerable.Range(1, 5).Select(i => startOfWeek
+        var result = Enumerable.Range(1, 6).Select(i => startOfWeek
             .AddDays(i)).ToArray();
 
         var weekArray = new List<string>() { };
