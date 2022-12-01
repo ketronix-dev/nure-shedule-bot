@@ -22,4 +22,17 @@ public class Date
         
         return weekArray.ToArray();
     }
+
+    public static string GetLastDayOnPreviousWeek()
+    {
+        DayOfWeek weekStart = DayOfWeek.Monday; // or Sunday, or whenever
+        DateTime startingDate = DateTime.Today;
+
+        while(startingDate.DayOfWeek != weekStart)
+            startingDate = startingDate.AddDays(-1);
+        
+        DateTime previousWeekEnd = startingDate.AddDays(-1);
+        
+        return $"{previousWeekEnd.Day}.{previousWeekEnd.Month}.{previousWeekEnd.Year}";
+    }
 }

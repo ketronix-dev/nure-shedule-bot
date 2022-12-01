@@ -23,7 +23,31 @@ namespace Bot
                 var message = update.Message;
                 var week = Date.GetWeek();
                 var day = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+                var dayOld = $"{DateTime.Today.AddDays(-1).Day}.{DateTime.Today.AddDays(-1).Month}.{DateTime.Today.AddDays(-1).Year}";
+
+                try
+                {
+                    if (!File.Exists($"./day-{day}.html") && !File.Exists($"./week-{week[4]}.html"))
+                    {
+                        await Service.GenerateHtmLforShedule(day, day, false);
+                        await Service.GenerateHtmLforShedule($"{week[0]}", $"{week[4]}", true);
+                        await botClient.SendTextMessageAsync(946530105, "Расписание загружено в кеш.");
+                    }
                 
+                    if (File.Exists($"./day-{dayOld}.html") && File.Exists($"./week-{Date.GetLastDayOnPreviousWeek()}.html"))
+                    {
+                        File.Delete($"./day-{dayOld}.html");
+                        File.Delete($"./week-{Date.GetLastDayOnPreviousWeek()}.html");
+                        await botClient.SendTextMessageAsync(946530105, "Устаревшое расписание было удалено.");
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    await botClient.SendTextMessageAsync(946530105,
+                        $"При попытке обновить кеш произошла ошибка: {e.Message}");
+                }
+
                 if (message.Chat.Type == ChatType.Private)
                 {
                     await botClient.SendTextMessageAsync(946530105, Log.LogMessage(
@@ -37,6 +61,27 @@ namespace Bot
                         await botClient.SendTextMessageAsync(message.Chat, "Дарова, если тебе нужно расписание на сегодня для твоей группы в ХНУРЭ - я его сгенерирую для тебя. \n \n" +
                                                                            "Но учти, что ты должен быть одним из \"Избранных\", подробнее в ЛС у автора (@ketronix_dev)");
                         return;
+                    }
+
+                    if (message.Text.ToLower().Contains("/notify_update") && message.From.Id == 946530105)
+                    {
+                        var textToSend = message.Text.Split('|')[1];
+
+                        try
+                        {
+                            await botClient.SendTextMessageAsync(-1001840161407,
+                                textToSend);
+                            await botClient.SendTextMessageAsync(-1001576440434,
+                                textToSend);
+                            
+                            await botClient.SendTextMessageAsync(message.Chat.Id,
+                                $"Пользователи только что были уведомлены о обновлении, его текст: \n \n {textToSend}");
+                        }
+                        catch (Exception e)
+                        {
+                            await botClient.SendTextMessageAsync(946530105,
+                                $"При попытке отправить уведомление произошла ошибка: {e.Message}");
+                        }
                     }
                 }
 
@@ -57,7 +102,6 @@ namespace Bot
 
                         if (isAlive.Result.Status == IPStatus.Success)
                         {
-                            await Service.GenerateHtmLforShedule(day, day);
                             var shedule = Service.GetCistShedule("simple.html");
                             var msg = await botClient.SendTextMessageAsync(message.Chat, shedule, ParseMode.Html,
                                 disableWebPagePreview: true);
@@ -91,9 +135,8 @@ namespace Bot
 
                         if (isAlive.Result.Status == IPStatus.Success)
                         {
-                            await Service.GenerateHtmLforShedule($"{week[0]}", $"{week[4]}");
-
-                            var msg = await botClient.SendTextMessageAsync(message.Chat, Service.GetWeekShedule(),
+                            var msg = await botClient.SendTextMessageAsync(message.Chat,
+                                Service.GetWeekShedule($"./week-{week[4]}.html"),
                                 ParseMode.Html, disableWebPagePreview: true);
                         }
                         else

@@ -5,7 +5,7 @@ using Bot.DateManagment;
 
 public class Service
 {
-    public static async Task GenerateHtmLforShedule(string startDate, string endDate)
+    public static async Task GenerateHtmLforShedule(string startDate, string endDate, bool week)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         var html = $"https://cist.nure.ua/ias/app/tt/f?p=778:201:2925093908151803:::201:P201_FIRST_DATE,P201_LAST_DATE,P201_GROUP,P201_POTOK:{startDate},{endDate},10304333,0:";
@@ -14,7 +14,10 @@ public class Service
         var htmlDoc = await web.LoadFromWebAsync(html);
 
         var node = htmlDoc.DocumentNode.SelectSingleNode("/");
-        File.WriteAllText("./simple.html", node.OuterHtml);
+        if(week)
+            File.WriteAllText($"./week-{endDate}.html", node.OuterHtml);
+        else
+            File.WriteAllText($"./day-{startDate}.html", node.OuterHtml);
         /*Console.WriteLine(node.OuterHtml);*/
     }
 
@@ -151,7 +154,7 @@ public class Service
         }
         else
         {
-            var html = File.OpenRead("simple.html");
+            var html = File.OpenRead(pathToFile);
             var parser = new CistHtmlParser();
             var result = parser.ParseAsSequence(html).ToList();
             
@@ -164,9 +167,9 @@ public class Service
         return message;
     }
 
-    public static string GetWeekShedule()
+    public static string GetWeekShedule(string pathToFile)
     {
-        var html = File.OpenRead("./simple.html");
+        var html = File.OpenRead(pathToFile);
         var parser = new CistHtmlParser();
         var result = parser.ParseAsSequence(html).ToList();
 
