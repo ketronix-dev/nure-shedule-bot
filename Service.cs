@@ -197,7 +197,7 @@ public class Service
             }else if (i.Date == DateOnly.ParseExact(week[3], "d.M.yyyy"))
             {
                 thurdday += GetEventHtml(i);
-            }else if (i.Date == DateOnly.ParseExact(week[3], "d.M.yyyy"))
+            }else if (i.Date == DateOnly.ParseExact(week[4], "d.M.yyyy"))
             {
                 friday += GetEventHtml(i);
             }
