@@ -18,35 +18,35 @@ namespace Bot
         private static ITelegramBotClient bot;
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
+            var week = Date.GetWeek();
+            var day = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+            var dayOld = $"{DateTime.Today.AddDays(-1).Day}.{DateTime.Today.AddDays(-1).Month}.{DateTime.Today.AddDays(-1).Year}";
+
+            try
+            {
+                if (!File.Exists($"./day-{day}.html") || !File.Exists($"./week-{week[4]}.html"))
+                {
+                    await Service.GenerateHtmLforShedule(day, day, false);
+                    await Service.GenerateHtmLforShedule($"{week[0]}", $"{week[4]}", true);
+                    await botClient.SendTextMessageAsync(946530105, "Расписание загружено в кеш.");
+                }
+                
+                if (File.Exists($"./day-{dayOld}.html") || File.Exists($"./week-{Date.GetLastDayOnPreviousWeek()}.html"))
+                {
+                    File.Delete($"./day-{dayOld}.html");
+                    File.Delete($"./week-{Date.GetLastDayOnPreviousWeek()}.html");
+                    await botClient.SendTextMessageAsync(946530105, "Устаревшое расписание было удалено.");
+                }
+                    
+            }
+            catch (Exception e)
+            {
+                await botClient.SendTextMessageAsync(946530105,
+                    $"При попытке обновить кеш произошла ошибка: {e.Message}");
+            }
             if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
                 var message = update.Message;
-                var week = Date.GetWeek();
-                var day = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
-                var dayOld = $"{DateTime.Today.AddDays(-1).Day}.{DateTime.Today.AddDays(-1).Month}.{DateTime.Today.AddDays(-1).Year}";
-
-                try
-                {
-                    if (!File.Exists($"./day-{day}.html") && !File.Exists($"./week-{week[4]}.html"))
-                    {
-                        await Service.GenerateHtmLforShedule(day, day, false);
-                        await Service.GenerateHtmLforShedule($"{week[0]}", $"{week[4]}", true);
-                        await botClient.SendTextMessageAsync(946530105, "Расписание загружено в кеш.");
-                    }
-                
-                    if (File.Exists($"./day-{dayOld}.html") && File.Exists($"./week-{Date.GetLastDayOnPreviousWeek()}.html"))
-                    {
-                        File.Delete($"./day-{dayOld}.html");
-                        File.Delete($"./week-{Date.GetLastDayOnPreviousWeek()}.html");
-                        await botClient.SendTextMessageAsync(946530105, "Устаревшое расписание было удалено.");
-                    }
-                    
-                }
-                catch (Exception e)
-                {
-                    await botClient.SendTextMessageAsync(946530105,
-                        $"При попытке обновить кеш произошла ошибка: {e.Message}");
-                }
 
                 if (message.Chat.Type == ChatType.Private)
                 {
