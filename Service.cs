@@ -48,8 +48,17 @@ public class Service
                         }
                         break;
                     case "ВМ":
-                        message += $"{i.Number} | {i.StartTime}-{i.EndTime} | {i.SubjectShortName}" +
-                                   $"\t <a href=\"https://meet.google.com/qzi-dnak-fdv\">Ссылка</a>\n";
+                        switch (i.EventType)
+                        {
+                            case "Лк":
+                                message = $"{i.Number} | {i.StartTime}-{i.EndTime} | {i.SubjectShortName}" +
+                                          $"\t <a href=\"https://meet.google.com/qzi-dnak-fdv\">Ссылка</a>\n";
+                                break;
+                            case "Пз":
+                                message = $"{i.Number} | {i.StartTime}-{i.EndTime} | {i.SubjectShortName} - ПЗ" +
+                                          $"\t <a href=\"https://meet.google.com/znu-fzqk-fjd\">Ссылка</a>\n";
+                                break;
+                        }
                         break;
                     case "УФМ":
                         switch (i.EventType)
