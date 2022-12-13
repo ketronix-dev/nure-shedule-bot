@@ -8,6 +8,7 @@ using Bot.DateManagment;
 using Bot.Logging;
 using File = System.IO.File;
 using System.Text;
+using Newtonsoft.Json;
 using Tomlyn;
 
 namespace Bot
@@ -50,12 +51,9 @@ namespace Bot
 
                 if (message.Chat.Type == ChatType.Private)
                 {
-                    await botClient.SendTextMessageAsync(946530105, Log.LogMessage(
-                        message.From.FirstName,
-                        message.From.LastName,
-                        message.Chat.Title,
-                        message.Chat.Id,
-                        message.Text));
+                    await botClient.SendTextMessageAsync(
+                        -784948334,
+                        Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                     if (message.Text.ToLower() == "/start")
                     {
                         await botClient.SendTextMessageAsync(message.Chat, "Дарова, если тебе нужно расписание на сегодня для твоей группы в ХНУРЭ - я его сгенерирую для тебя. \n \n" +
