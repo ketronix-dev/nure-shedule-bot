@@ -50,7 +50,7 @@ public class BotServices
     {
         await bot.SendTextMessageAsync(
             MessageChatId,
-            $"Теперь в эту группу будет отправляться расписание для группы {group.GroupName}");
+            $"Теперь в этот чат будет отправляться расписание для группы {group.GroupName}");
         await bot.DeleteMessageAsync(MessageChatId, MessageId);
         DbUtils.InsertGroup(MessageChatId, group.GroupNumber, group.GroupId);
     }
