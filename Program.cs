@@ -61,73 +61,133 @@ namespace NureBotSchedule
 
                     if (message.Chat.Type == ChatType.Private)
                     {
-                        await botClient.SendTextMessageAsync(
-                            message.Chat.Id,
-                            "Расписание в ЛС будет доступно в следующей версии бота.");
-                    }
-
-                    if (message.Text == "/register" || message.Text == "/register@" + botClient.GetMeAsync().Result.Username)
-                    {
-                        if (!DbUtils.checkGroup(message.Chat.Id))
-                        {
-                            register = await botClient.SendTextMessageAsync(
-                                message.Chat.Id,
-                                "Выберите группу с которой ассоциируется данный чат:",
-                                replyMarkup: BotServices.ChooseGroupKeyboard());
-                        }
-                        else
-                        {
-                            await botClient.SendTextMessageAsync(message.Chat.Id,
-                                "Группа уже зарегистрирована! \n \n " +
-                                "Если вы хотите изменить группу к которой относится этот чат - напишите администратору (@ketronix_dev). А пока вы можете получить расписание по командам ниже: \n \n" +
-                                "/schedule - получить расписание на сегодня. \n" +
-                                "/schedule_week - получить расписание на всю неделю.");
-                        }
-                    }
-
-                    if (message.Text == "/schedule" || message.Text == "/schedule@" + botClient.GetMeAsync().Result.Username)
-                    {
                         if (DbUtils.checkGroup(message.Chat.Id))
                         {
-                            var events = Schedule.GetCistEvents(
-                                Schedule.GetCistShedule(DbUtils.GetGroup(message.Chat.Id)),
-                                DateService.GetToday(),
-                                DateService.GetToday());
-                            var messageSchedule = MessageGenerator.GenerateMessageForToday(
-                                events,
-                                DbUtils.GetGroup(message.Chat.Id));
-
-                            if (events.Count is not 0)
+                            if (message.Text == "/schedule" ||
+                                message.Text == "/schedule@" + botClient.GetMeAsync().Result.Username)
                             {
+                                var events = Schedule.GetCistEvents(
+                                    Schedule.GetCistShedule(DbUtils.GetGroup(message.Chat.Id)),
+                                    DateService.GetToday(),
+                                    DateService.GetToday());
+                                var messageSchedule = MessageGenerator.GenerateMessageForToday(
+                                    events,
+                                    DbUtils.GetGroup(message.Chat.Id));
+
+                                if (events.Count is not 0)
+                                {
+                                    await botClient.SendTextMessageAsync(
+                                        message.Chat.Id,
+                                        messageSchedule,
+                                        parseMode: ParseMode.Html, disableWebPagePreview: true);
+                                }
+                                else
+                                {
+                                    await botClient.SendTextMessageAsync(
+                                        message.Chat.Id,
+                                        "Пар сегодня нет, расслабьтесь.");
+                                }
+                            }
+
+                            if (message.Text == "/schedule_week" ||
+                                message.Text == "/schedule_week@" + botClient.GetMeAsync().Result.Username)
+                            {
+                                var weekDates = DateService.GetWeekDates(DateService.GetToday());
+                                var messageSchedule = MessageGenerator.GenerateMessageForWeek(
+                                    DbUtils.GetGroup(message.Chat.Id), weekDates[0], weekDates[1]);
+
                                 await botClient.SendTextMessageAsync(
                                     message.Chat.Id,
                                     messageSchedule,
                                     parseMode: ParseMode.Html, disableWebPagePreview: true);
                             }
+                        }
+                        else
+                        {
+                            if (!DbUtils.checkGroup(message.Chat.Id))
+                            {
+                                register = await botClient.SendTextMessageAsync(
+                                    message.Chat.Id,
+                                    "Выберите группу с которой ассоциируется данный чат:",
+                                    replyMarkup: BotServices.ChooseGroupKeyboard());
+                            }
                             else
                             {
-                                await botClient.SendTextMessageAsync(
-                                    message.Chat.Id,
-                                    "Пар сегодня нет, расслабьтесь.");
+                                await botClient.SendTextMessageAsync(message.Chat.Id,
+                                    "Группа уже зарегистрирована! \n \n " +
+                                    "Если вы хотите изменить группу к которой относится этот чат - напишите администратору (@ketronix_dev). А пока вы можете получить расписание по командам ниже: \n \n" +
+                                    "/schedule - получить расписание на сегодня. \n" +
+                                    "/schedule_week - получить расписание на всю неделю.");
                             }
                         }
                     }
 
-                    if (message.Text == "/schedule_week" || message.Text == "/schedule_week@" + botClient.GetMeAsync().Result.Username)
+                    if (message.Chat.Type != ChatType.Private)
                     {
-                        if (DbUtils.checkGroup(message.Chat.Id))
+                        if (message.Text == "/register" ||
+                            message.Text == "/register@" + botClient.GetMeAsync().Result.Username)
                         {
-                            var weekDates = DateService.GetWeekDates(DateService.GetToday());
-                            var messageSchedule = MessageGenerator.GenerateMessageForWeek(
-                                DbUtils.GetGroup(message.Chat.Id), weekDates[0], weekDates[1]);
-
-                            await botClient.SendTextMessageAsync(
-                                message.Chat.Id,
-                                messageSchedule,
-                                parseMode: ParseMode.Html, disableWebPagePreview: true);
+                            if (!DbUtils.checkGroup(message.Chat.Id))
+                            {
+                                register = await botClient.SendTextMessageAsync(
+                                    message.Chat.Id,
+                                    "Выберите группу с которой ассоциируется данный чат:",
+                                    replyMarkup: BotServices.ChooseGroupKeyboard());
+                            }
+                            else
+                            {
+                                await botClient.SendTextMessageAsync(message.Chat.Id,
+                                    "Группа уже зарегистрирована! \n \n " +
+                                    "Если вы хотите изменить группу к которой относится этот чат - напишите администратору (@ketronix_dev). А пока вы можете получить расписание по командам ниже: \n \n" +
+                                    "/schedule - получить расписание на сегодня. \n" +
+                                    "/schedule_week - получить расписание на всю неделю.");
+                            }
                         }
 
-                        var week = DateService.GetWeekDates(DateOnly.FromDateTime(DateTime.Now));
+                        if (message.Text == "/schedule" ||
+                            message.Text == "/schedule@" + botClient.GetMeAsync().Result.Username)
+                        {
+                            if (DbUtils.checkGroup(message.Chat.Id))
+                            {
+                                var events = Schedule.GetCistEvents(
+                                    Schedule.GetCistShedule(DbUtils.GetGroup(message.Chat.Id)),
+                                    DateService.GetToday(),
+                                    DateService.GetToday());
+                                var messageSchedule = MessageGenerator.GenerateMessageForToday(
+                                    events,
+                                    DbUtils.GetGroup(message.Chat.Id));
+
+                                if (events.Count is not 0)
+                                {
+                                    await botClient.SendTextMessageAsync(
+                                        message.Chat.Id,
+                                        messageSchedule,
+                                        parseMode: ParseMode.Html, disableWebPagePreview: true);
+                                }
+                                else
+                                {
+                                    await botClient.SendTextMessageAsync(
+                                        message.Chat.Id,
+                                        "Пар сегодня нет, расслабьтесь.");
+                                }
+                            }
+                        }
+
+                        if (message.Text == "/schedule_week" ||
+                            message.Text == "/schedule_week@" + botClient.GetMeAsync().Result.Username)
+                        {
+                            if (DbUtils.checkGroup(message.Chat.Id))
+                            {
+                                var weekDates = DateService.GetWeekDates(DateService.GetToday());
+                                var messageSchedule = MessageGenerator.GenerateMessageForWeek(
+                                    DbUtils.GetGroup(message.Chat.Id), weekDates[0], weekDates[1]);
+
+                                await botClient.SendTextMessageAsync(
+                                    message.Chat.Id,
+                                    messageSchedule,
+                                    parseMode: ParseMode.Html, disableWebPagePreview: true);
+                            }
+                        }
                     }
                 }
                 else if (update.Type == UpdateType.CallbackQuery)
