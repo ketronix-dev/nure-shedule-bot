@@ -27,6 +27,9 @@ namespace NureBotSchedule
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
+            await botClient.SendTextMessageAsync(
+                -784948334,
+                Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
             try
             {
                 DbUtils.CreateTableOrNo();
@@ -198,7 +201,9 @@ namespace NureBotSchedule
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                await botClient.SendTextMessageAsync(
+                    -784948334,
+                    Newtonsoft.Json.JsonConvert.SerializeObject(e, Formatting.Indented));
                 throw;
             }
         }
@@ -208,11 +213,15 @@ namespace NureBotSchedule
         {
             try
             {
-                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception, Formatting.Indented));
+                await botClient.SendTextMessageAsync(
+                    -784948334,
+                    Newtonsoft.Json.JsonConvert.SerializeObject(exception, Formatting.Indented));
             }
             catch (Exception e)
             {
-                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(e, Formatting.Indented));
+                await botClient.SendTextMessageAsync(
+                    -784948334,
+                    Newtonsoft.Json.JsonConvert.SerializeObject(e, Formatting.Indented));
             }
         }
 
