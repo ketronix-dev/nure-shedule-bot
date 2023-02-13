@@ -24,9 +24,26 @@ namespace NureBotSchedule
 
         static ITelegramBotClient bot = new TelegramBotClient("");
 
+        static async Task ExecuteCode(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                await botClient.SendTextMessageAsync(
+                    -1001638301850,
+                    Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Code execution failed: " + ex.Message);
+            }
+            
+            Thread.Sleep(1000);
+        }
+        
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
+            await ExecuteCode(botClient, update);
             try
             {
                 DbUtils.CreateTableOrNo();
@@ -61,9 +78,6 @@ namespace NureBotSchedule
 
                     if (message.Chat.Type == ChatType.Private)
                     {
-                        await botClient.SendTextMessageAsync(
-                            -1001638301850,
-                            Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                         if (DbUtils.checkGroup(message.Chat.Id))
                         {
                             if (message.Text == "/schedule" ||
