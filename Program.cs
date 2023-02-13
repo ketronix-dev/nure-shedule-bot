@@ -27,9 +27,6 @@ namespace NureBotSchedule
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
-            await botClient.SendTextMessageAsync(
-                -1001638301850,
-                Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
             try
             {
                 DbUtils.CreateTableOrNo();
@@ -64,6 +61,9 @@ namespace NureBotSchedule
 
                     if (message.Chat.Type == ChatType.Private)
                     {
+                        await botClient.SendTextMessageAsync(
+                            -1001638301850,
+                            Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                         if (DbUtils.checkGroup(message.Chat.Id))
                         {
                             if (message.Text == "/schedule" ||
@@ -130,6 +130,9 @@ namespace NureBotSchedule
                         if (message.Text == "/register" ||
                             message.Text == "/register@" + botClient.GetMeAsync().Result.Username)
                         {
+                            await botClient.SendTextMessageAsync(
+                                -1001638301850,
+                                Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                             if (!DbUtils.checkGroup(message.Chat.Id))
                             {
                                 register = await botClient.SendTextMessageAsync(
@@ -150,6 +153,9 @@ namespace NureBotSchedule
                         if (message.Text == "/schedule" ||
                             message.Text == "/schedule@" + botClient.GetMeAsync().Result.Username)
                         {
+                            await botClient.SendTextMessageAsync(
+                                -1001638301850,
+                                Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                             if (DbUtils.checkGroup(message.Chat.Id))
                             {
                                 var events = Schedule.GetCistEvents(
@@ -179,6 +185,9 @@ namespace NureBotSchedule
                         if (message.Text == "/schedule_week" ||
                             message.Text == "/schedule_week@" + botClient.GetMeAsync().Result.Username)
                         {
+                            await botClient.SendTextMessageAsync(
+                                -1001638301850,
+                                Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
                             if (DbUtils.checkGroup(message.Chat.Id))
                             {
                                 var weekDates = DateService.GetWeekDates(DateService.GetToday());
