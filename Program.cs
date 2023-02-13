@@ -28,7 +28,7 @@ namespace NureBotSchedule
             CancellationToken cancellationToken)
         {
             await botClient.SendTextMessageAsync(
-                -784948334,
+                946530105,
                 Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));
             try
             {
@@ -202,7 +202,7 @@ namespace NureBotSchedule
             catch (Exception e)
             {
                 await botClient.SendTextMessageAsync(
-                    -784948334,
+                    946530105,
                     Newtonsoft.Json.JsonConvert.SerializeObject(e, Formatting.Indented));
                 throw;
             }
@@ -214,13 +214,13 @@ namespace NureBotSchedule
             try
             {
                 await botClient.SendTextMessageAsync(
-                    -784948334,
+                    946530105,
                     Newtonsoft.Json.JsonConvert.SerializeObject(exception, Formatting.Indented));
             }
             catch (Exception e)
             {
                 await botClient.SendTextMessageAsync(
-                    -784948334,
+                    946530105,
                     Newtonsoft.Json.JsonConvert.SerializeObject(e, Formatting.Indented));
             }
         }
