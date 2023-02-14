@@ -218,7 +218,6 @@ namespace NureBotSchedule
                 await ExecuteCode(botClient, update);
                 throw;
             }
-            await ExecuteCode(botClient, update);
         }
 
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception,
