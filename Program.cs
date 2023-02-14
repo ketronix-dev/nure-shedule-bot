@@ -43,7 +43,7 @@ namespace NureBotSchedule
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
-            await ExecuteCode(botClient, update);
+            
             try
             {
                 DbUtils.CreateTableOrNo();
@@ -218,6 +218,7 @@ namespace NureBotSchedule
                 await ExecuteCode(botClient, update);
                 throw;
             }
+            await ExecuteCode(botClient, update);
         }
 
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception,
