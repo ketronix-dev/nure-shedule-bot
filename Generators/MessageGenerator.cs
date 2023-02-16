@@ -7,6 +7,7 @@ namespace NureBotSchedule.Generators;
 public class MessageGenerator
 {
     public static string DonateHTML = "\n \n" +
+                                      "<a href=\"https://t.me/kiuki_22_botinfo\">Info</a> | " +
                                       "<a href=\"https://osel.pp.ua/donate/\">Donate</a> | " +
                                       "<a href=\"https://t.me/ketronix_dev\">Support</a> | " +
                                       "<a href=\"https://github.com/ketronix-dev/nure-shedule-bot\">Source code</a>" +
