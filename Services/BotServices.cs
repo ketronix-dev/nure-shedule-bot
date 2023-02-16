@@ -51,7 +51,14 @@ public class BotServices
         await bot.SendTextMessageAsync(
             MessageChatId,
             $"Теперь в этот чат будет отправляться расписание для группы {group.GroupName}");
-        await bot.DeleteMessageAsync(MessageChatId, MessageId);
+        try
+        {
+            await bot.DeleteMessageAsync(MessageChatId, MessageId);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
         DbUtils.InsertGroup(MessageChatId, group.GroupNumber, group.GroupId);
     }
     public static async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery, Message register)
@@ -172,7 +179,14 @@ public class BotServices
                 if (chatMember == true)
                 {
                     await botClient.SendTextMessageAsync(message.Chat.Id, "Проверка пройдена успешно, для выбора расписания для этого чата выполните команду /register.");
-                    await botClient.DeleteMessageAsync(message.Chat.Id, message.MessageId);
+                    try
+                    {
+                        await botClient.DeleteMessageAsync(message.Chat.Id, message.MessageId);
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
                 }
             }
             catch (Exception e)
