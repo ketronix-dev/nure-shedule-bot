@@ -40,7 +40,7 @@ public class HtmlService
             case "ІМ":
                 switch (i.EventType)
                 {
-                    case "Лк":
+                    case "Пз":
 
                         message =
                             $"{i.StartTime}-{i.EndTime} | {i.SubjectShortName} - {i.EventType.ToUpper()}" +
