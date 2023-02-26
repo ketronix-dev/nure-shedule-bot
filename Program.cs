@@ -44,12 +44,12 @@ namespace NureBotSchedule
             CancellationToken cancellationToken)
         {
             
-            /*try
+            try
             {
                 DbUtils.CreateTableOrNo();
                 if (update.Type == UpdateType.Message)
                 {
-                    /*Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));#1#
+                    /*Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update, Formatting.Indented));*/
                     var message = update.Message;
 
                     if (message.NewChatMembers is not null)
@@ -217,7 +217,7 @@ namespace NureBotSchedule
             {
                 await ExecuteCode(botClient, update);
                 throw;
-            }*/
+            }
         }
 
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception,
