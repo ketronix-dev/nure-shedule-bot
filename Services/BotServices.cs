@@ -46,22 +46,23 @@ public class BotServices
         return keyboard;
     }
 
-    public static async Task GroupChoosed(ITelegramBotClient bot, long MessageChatId, int MessageId, Group group )
+    public static async Task GroupChoosed(ITelegramBotClient bot, long MessageChatId, Group group )
     {
-        await bot.SendTextMessageAsync(
+        if(DbUtils.checkGroup(MessageChatId))
+        {
+            await bot.SendTextMessageAsync(
             MessageChatId,
-            $"Теперь в этот чат будет отправляться расписание для группы {group.GroupName}");
-        try
-        {
-            await bot.DeleteMessageAsync(MessageChatId, MessageId);
+            "Этот чат уже присутствует в базе, обратитесь к администратору бота.");
         }
-        catch (Exception e)
+        else
         {
-            throw;
+            await bot.SendTextMessageAsync(
+                MessageChatId,
+                $"Теперь в этот чат будет отправляться расписание для группы {group.GroupName}");
+            DbUtils.InsertGroup(MessageChatId, group.GroupNumber, group.GroupId);
         }
-        DbUtils.InsertGroup(MessageChatId, group.GroupNumber, group.GroupId);
     }
-    public static async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery, Message register)
+    public static async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery)
         {
             if (callbackQuery.Data == "kiuki_22_1")
             {
@@ -72,7 +73,7 @@ public class BotServices
                     GroupName = "KIUKI-22-1",
                     GroupNumber = 1
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_2")
             {
@@ -83,7 +84,7 @@ public class BotServices
                     GroupName = "KIUKI-22-2",
                     GroupNumber = 2
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_3")
             {
@@ -94,7 +95,7 @@ public class BotServices
                     GroupName = "KIUKI-22-3",
                     GroupNumber = 3
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_4")
             {
@@ -105,7 +106,7 @@ public class BotServices
                     GroupName = "KIUKI-22-4",
                     GroupNumber = 4
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_5")
             {
@@ -116,7 +117,7 @@ public class BotServices
                     GroupName = "KIUKI-22-5",
                     GroupNumber = 5
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_6")
             {
@@ -127,7 +128,7 @@ public class BotServices
                     GroupName = "KIUKI-22-6",
                     GroupNumber = 6
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_7")
             {
@@ -138,7 +139,7 @@ public class BotServices
                     GroupName = "KIUKI-22-7",
                     GroupNumber = 7
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
             if (callbackQuery.Data == "kiuki_22_8")
             {
@@ -149,7 +150,7 @@ public class BotServices
                     GroupName = "KIUKI-22-8",
                     GroupNumber = 8
                 };
-                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, register.MessageId, group);
+                await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
             }
         }
     
@@ -179,14 +180,6 @@ public class BotServices
                 if (chatMember == true)
                 {
                     await botClient.SendTextMessageAsync(message.Chat.Id, "Проверка пройдена успешно, для выбора расписания для этого чата выполните команду /register.");
-                    try
-                    {
-                        await botClient.DeleteMessageAsync(message.Chat.Id, message.MessageId);
-                    }
-                    catch (Exception e)
-                    {
-                        throw;
-                    }
                 }
             }
             catch (Exception e)
