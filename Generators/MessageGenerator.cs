@@ -18,11 +18,11 @@ public class MessageGenerator
         
         if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
         {
-            message = "Пар сегодня нет, росслабьтесь";
+            message = "Пар сьогодні нема, дозволяю відпочити";
         }
         else
         {
-            message = $"Расписание на: {$"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}"} \n --------------------------- \n";
+            message = $"Розклад на: {$"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}"} \n --------------------------- \n";
             foreach (var i in events)
             {
                 message += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
@@ -37,13 +37,13 @@ public class MessageGenerator
         
         string startWeek = startDate.ToString("dd.MM.yyyy");
         string endWeek = endDate.ToString("dd.MM.yyyy");
-        var message = $"Расписание на: {$"{startWeek} - {endWeek}"} \n -------------------------- \n";
+        var message = $"Розклад на: {$"{startWeek} - {endWeek}"} \n -------------------------- \n";
 
-        var monday = $"\n Понедельник | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n";
-        var tuesday = $"\n \n Вторник | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n";
-        var wednesday = $"\n \n Среда | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n";
-        var thurdday = $"\n \n Четверг | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n";
-        var friday = $"\n \n Пятница | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n";
+        var monday = $"\n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n";
+        var tuesday = $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n";
+        var wednesday = $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n";
+        var thurdday = $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n";
+        var friday = $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n";
         
         foreach (var i in result)
         {
@@ -65,21 +65,21 @@ public class MessageGenerator
             }
         }
 
-        if (monday == $"\n Понедельник | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n")
+        if (monday == $"\n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n")
         {
-            monday = $"\n \n Понедельник | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n В этот день пар нет.";
-        }if (tuesday == $"\n \n Вторник | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n")
+            monday = $"\n \n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n В этот день пар нет.";
+        }if (tuesday == $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n")
         {
-            tuesday = $"\n \n Вторник | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n В этот день пар нет.";
-        }if (wednesday == $"\n \n Среда | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n")
+            tuesday = $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n В этот день пар нет.";
+        }if (wednesday == $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n")
         {
-            wednesday = $"\n \n Среда | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n В этот день пар нет.";
-        }if (thurdday == $"\n \n Четверг | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n")
+            wednesday = $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n В этот день пар нет.";
+        }if (thurdday == $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n")
         {
-            thurdday = $"\n \n Четверг | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n В этот день пар нет.";
-        }if (friday == $"\n \n Пятница | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n")
+            thurdday = $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n В этот день пар нет.";
+        }if (friday == $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n")
         {
-            friday = $"\n \n Пятница | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n В этот день пар нет.";
+            friday = $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n В этот день пар нет.";
         }
 
         message += monday + tuesday + wednesday + thurdday + friday;

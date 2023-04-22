@@ -32,7 +32,7 @@ public class HtmlService
         if (link.Result is null || link.Result == "")
         {
             message = $"{i.StartTime}-{i.EndTime} | {i.SubjectShortName} - {i.EventType.ToUpper()}" +
-                      $"\t <a href=\"\">Ссылка отсутствует</a>\n";
+                      $"\t <a href=\"\">Посилання нема</a>\n";
             return message;
         }
         switch (i.SubjectShortName)
@@ -44,15 +44,15 @@ public class HtmlService
 
                         message =
                             $"{i.StartTime}-{i.EndTime} | {i.SubjectShortName} - {i.EventType.ToUpper()}" +
-                            $"\t <a href=\"{link.Result.Split(" | ")[0]}\">Ссылка (Учитель 1)</a> : " +
-                            $"<a href=\"{link.Result.Split(" | ")[1]}\">Ссылка (Учитель 2)</a>\n";
+                            $"\t <a href=\"{link.Result.Split(" | ")[0]}\">Посилання (вчитель 1)</a> : " +
+                            $"<a href=\"{link.Result.Split(" | ")[1]}\">Посилання (Вчитель 2)</a>\n";
                         break;
                 }
 
                 break;
             default:
                 message = $"{i.StartTime}-{i.EndTime} | {i.SubjectShortName} - {i.EventType.ToUpper()}" +
-                          $"\t <a href=\"{link.Result}\">Ссылка</a>\n";
+                          $"\t <a href=\"{link.Result}\">Посилання</a>\n";
                 break;
         }
 

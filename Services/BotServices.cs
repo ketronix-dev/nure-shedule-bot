@@ -13,23 +13,23 @@ public class BotServices
         {
             new[]
             {
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-1", "kiuki_22_1"),
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-2", "kiuki_22_2"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-1", "kiuki_22_1"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-2", "kiuki_22_2"),
             },
             new[]
             {
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-3", "kiuki_22_3"), 
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-4", "kiuki_22_4"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-3", "kiuki_22_3"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-4", "kiuki_22_4"),
             },
             new []
             {
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-5", "kiuki_22_5"), 
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-6", "kiuki_22_6"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-5", "kiuki_22_5"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-6", "kiuki_22_6"),
             },
             new []
             {
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-7", "kiuki_22_7"), 
-                InlineKeyboardButton.WithCallbackData("KIUKI-22-8", "kiuki_22_8"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-7", "kiuki_22_7"),
+                InlineKeyboardButton.WithCallbackData("КІУКІ-22-8", "kiuki_22_8"),
             }
         });
         return keyboard;
@@ -40,7 +40,7 @@ public class BotServices
         {
             new[]
             {
-                InlineKeyboardButton.WithCallbackData("Проверить админ ли бот.", "isBot"),
+                InlineKeyboardButton.WithCallbackData("Перевірити, чи адмін бот (а адмін завжди бот)", "isBot"),
             }
         });
         return keyboard;
@@ -52,13 +52,13 @@ public class BotServices
         {
             await bot.SendTextMessageAsync(
             MessageChatId,
-            "Этот чат уже присутствует в базе, обратитесь к администратору бота.");
+            "Цей чат вже є в базі, якщо виникли проблеми - пишіть в саппорт (кнопка під кожним згенерованим розкладом)");
         }
         else
         {
             await bot.SendTextMessageAsync(
                 MessageChatId,
-                $"Теперь в этот чат будет отправляться расписание для группы {group.GroupName}");
+                $"Тепер в цей чат скидатимуться розклади для группи {group.GroupName}, але тільки якшо в адміна бота буде гарний настрій, тому час зробити донат! Посилання під згенерованим розкладом.");
             DbUtils.InsertGroup(MessageChatId, group.GroupNumber, group.GroupId);
         }
     }
@@ -70,7 +70,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304320,
-                    GroupName = "KIUKI-22-1",
+                    GroupName = "КІУКІ-22-1",
                     GroupNumber = 1
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -81,7 +81,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304322,
-                    GroupName = "KIUKI-22-2",
+                    GroupName = "КІУКІ-22-2",
                     GroupNumber = 2
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -92,7 +92,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304325,
-                    GroupName = "KIUKI-22-3",
+                    GroupName = "КІУКІ-22-3",
                     GroupNumber = 3
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -103,7 +103,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304327,
-                    GroupName = "KIUKI-22-4",
+                    GroupName = "КІУКІ-22-4",
                     GroupNumber = 4
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -114,7 +114,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304329,
-                    GroupName = "KIUKI-22-5",
+                    GroupName = "КІУКІ-22-5",
                     GroupNumber = 5
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -125,7 +125,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304331,
-                    GroupName = "KIUKI-22-6",
+                    GroupName = "КІУКІ-22-6",
                     GroupNumber = 6
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -136,7 +136,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304333,
-                    GroupName = "KIUKI-22-7",
+                    GroupName = "КІУКІ-22-7",
                     GroupNumber = 7
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -147,7 +147,7 @@ public class BotServices
                 {
                     ChatId = callbackQuery.Message.Chat.Id,
                     GroupId = 10304335,
-                    GroupName = "KIUKI-22-8",
+                    GroupName = "КІУКІ-22-8",
                     GroupNumber = 8
                 };
                 await GroupChoosed(botClient, callbackQuery.Message.Chat.Id, group);
@@ -179,7 +179,7 @@ public class BotServices
 
                 if (chatMember == true)
                 {
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "Проверка пройдена успешно, для выбора расписания для этого чата выполните команду /register.");
+                    await botClient.SendTextMessageAsync(message.Chat.Id, "Перевірка пройшла успішно. Бот став адміном (а адмін ботом), для реєстрації чату відправте /register.");
                 }
             }
             catch (Exception e)
