@@ -67,19 +67,19 @@ public class MessageGenerator
 
         if (monday == $"\n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n")
         {
-            monday = $"\n \n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n В этот день пар нет.";
+            monday = $"\n \n Понеділок | {DateService.GetWeekDays(startWeek, endWeek)[0]} \n В цей день пар нема, можна гуляти.";
         }if (tuesday == $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n")
         {
-            tuesday = $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n В этот день пар нет.";
+            tuesday = $"\n \n Вівторок | {DateService.GetWeekDays(startWeek, endWeek)[1]} \n В цей день пар нема, можна гуляти.";
         }if (wednesday == $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n")
         {
-            wednesday = $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n В этот день пар нет.";
+            wednesday = $"\n \n Середа | {DateService.GetWeekDays(startWeek, endWeek)[2]} \n В цей день пар нема, можна гуляти.";
         }if (thurdday == $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n")
         {
-            thurdday = $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n В этот день пар нет.";
+            thurdday = $"\n \n Четвер | {DateService.GetWeekDays(startWeek, endWeek)[3]} \n В цей день пар нема, можна гуляти.";
         }if (friday == $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n")
         {
-            friday = $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n В этот день пар нет.";
+            friday = $"\n \n П'ятниця | {DateService.GetWeekDays(startWeek, endWeek)[4]} \n В цей день пар нема, можна гуляти.";
         }
 
         message += monday + tuesday + wednesday + thurdday + friday;
