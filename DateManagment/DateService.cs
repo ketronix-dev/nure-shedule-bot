@@ -9,7 +9,7 @@ public class DateService
         var days = new DateOnly[2];
         var currentDate = date.AddDays(-(int)date.DayOfWeek + (int)DayOfWeek.Monday);
         days[0] = currentDate;
-        currentDate = currentDate.AddDays(4);
+        currentDate = currentDate.AddDays(5);
         days[1] = currentDate;
         return days;
     }

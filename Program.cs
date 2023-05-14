@@ -42,7 +42,6 @@ namespace NureBotSchedule
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update,
             CancellationToken cancellationToken)
         {
-
             try
             {
                 DbUtils.CreateTableOrNo();
