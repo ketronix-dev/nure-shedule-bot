@@ -27,12 +27,13 @@ public class DateService
             throw new ArgumentException("The input dates are not a valid week");
         }
 
-        string[] dates = new string[5];
-        for (int i = 0; i < 5; i++)
+        string[] dates = new string[6];
+        for (int i = 0; i < 6; i++)
         {
             dates[i] = startDate.AddDays(i).ToString("dd.MM.yyyy");
         }
 
         return dates;
     }
+
 }
