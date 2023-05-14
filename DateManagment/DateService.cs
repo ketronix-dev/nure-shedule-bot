@@ -22,7 +22,7 @@ public class DateService
         DateTime endDate = DateTime.ParseExact(endDateString, "dd.MM.yyyy", CultureInfo.InvariantCulture);
         int daysDifference = (endDate - startDate).Days;
 
-        if (daysDifference != 4 || startDate.DayOfWeek != DayOfWeek.Monday || endDate.DayOfWeek != DayOfWeek.Friday)
+        if (daysDifference != 5 || startDate.DayOfWeek != DayOfWeek.Monday || endDate.DayOfWeek != DayOfWeek.Saturday)
         {
             throw new ArgumentException("The input dates are not a valid week");
         }
