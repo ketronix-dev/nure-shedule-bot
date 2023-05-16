@@ -1,4 +1,5 @@
 using NureBotSchedule.DateManagment;
+using NureBotSchedule.ServiceClasses;
 using NureBotSchedule.Services;
 using NureBotSchedule.Services.ScheduleServices;
 
@@ -31,9 +32,9 @@ public class MessageGenerator
         return message + DonateHTML;
     }
     
-    public static string GenerateMessageForWeek(Group group, DateOnly startDate, DateOnly endDate)
+    public static string GenerateMessageForWeek(Group group, DateOnly startDate, DateOnly endDate, string Key)
     {
-        var result = NureCistParser.Parse(group.GroupNumber);
+        var result = NureCistParser.Parse(group.GroupId, Key);
         
         string startWeek = startDate.ToString("dd.MM.yyyy");
         string endWeek = endDate.ToString("dd.MM.yyyy");
@@ -48,22 +49,22 @@ public class MessageGenerator
         
         foreach (var i in result)
         {
-            if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[0], "d.M.yyyy"))
+            if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[0], "d.M.yyyy"))
             {
                 monday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
-            } else if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[1], "d.M.yyyy"))
+            } else if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[1], "d.M.yyyy"))
             {
                 tuesday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
-            }else if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[2], "d.M.yyyy"))
+            }else if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[2], "d.M.yyyy"))
             {
                 wednesday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
-            }else if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[3], "d.M.yyyy"))
+            }else if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[3], "d.M.yyyy"))
             {
                 thurdday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
-            }else if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[4], "d.M.yyyy"))
+            }else if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[4], "d.M.yyyy"))
             {
                 friday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
-            }else if (i.Date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[5], "d.M.yyyy"))
+            }else if (i.date == DateOnly.ParseExact(DateService.GetWeekDays(startWeek, endWeek)[5], "d.M.yyyy"))
             {
                 saturday += HtmlService.GetEventHtml(i, group.GroupNumber.ToString());
             }

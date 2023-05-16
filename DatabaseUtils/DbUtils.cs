@@ -50,6 +50,12 @@ public class DbUtils
                            ") ENGINE = InnoDB;";
             MySqlCommand command = new MySqlCommand(query, conn);
             command.ExecuteNonQuery();
+            
+            string queryBlock = "CREATE TABLE `block` (" +
+                           "`id` BIGINT NULL DEFAULT NULL " +
+                           ") ENGINE = InnoDB;";
+            MySqlCommand commandBlock = new MySqlCommand(queryBlock, conn);
+            commandBlock.ExecuteNonQuery();
         }
         catch (MySqlException e)
         { }
@@ -94,12 +100,38 @@ public class DbUtils
         command.ExecuteNonQuery();
         conn.Close();
     }
+    public static void InsertGroupToBlock(long id)
+    {
+        var conn = GetDBConnection();
+
+        conn.Open();
+        var sql = $"INSERT INTO block VALUES({id});";
+        using var command = new MySqlCommand(sql, conn);
+        command.ExecuteNonQuery();
+        conn.Close();
+    }
     
     public static bool checkGroup(long id)
     {
         var conn = GetDBConnection();
         conn.Open();
         string query = "SELECT * FROM chats WHERE id = @number";
+        using (MySqlCommand command = new MySqlCommand(query, conn)) {
+            command.Parameters.AddWithValue("@number", id);
+            using (MySqlDataReader reader = command.ExecuteReader()) {
+                if (reader.HasRows) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+    public static bool checkBlockGroup(long id)
+    {
+        var conn = GetDBConnection();
+        conn.Open();
+        string query = "SELECT * FROM block WHERE id = @number";
         using (MySqlCommand command = new MySqlCommand(query, conn)) {
             command.Parameters.AddWithValue("@number", id);
             using (MySqlDataReader reader = command.ExecuteReader()) {
