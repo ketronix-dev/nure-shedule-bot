@@ -68,9 +68,9 @@ public class EventComposer
             {
                 number_pair = item.number_pair,
                 subject = FindSubjectById(schedule.Subjects, item.subject_id),
-                date = DateOnly.FromDateTime(timeAndDateStart.DateTime),
-                start_time = TimeOnly.FromDateTime(timeAndDateStart.DateTime),
-                end_time = TimeOnly.FromDateTime(timeAndDateEnd.DateTime),
+                date = DateOnly.FromDateTime(timeAndDateStart.LocalDateTime),
+                start_time = TimeOnly.FromDateTime(timeAndDateStart.LocalDateTime),
+                end_time = TimeOnly.FromDateTime(timeAndDateEnd.LocalDateTime),
                 type = GetEventType(item.type),
                 teachers = new List<Teacher>()
             };

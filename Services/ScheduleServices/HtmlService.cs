@@ -62,11 +62,11 @@ public class HtmlService
         }
         if (link is null || link == "")
         {
-            message = $"{i.start_time}-{i.end_time} | <b>{i.subject.brief} - {i.type.ToUpper()}</b> |" +
+            message = $"{i.start_time.ToString("HH:mm")}-{i.end_time.ToString("HH:mm")} | <b>{i.subject.brief} - {i.type.ToUpper()}</b> |" +
                       $"\t <a href=\"\">{i.teachers[0].short_name}</a>\n";
             return message;
         }
-        message = $"{i.start_time}-{i.end_time} | <b>{i.subject.brief} - {i.type.ToUpper()}</b> |" +
+        message = $"{i.start_time.ToString("HH:mm")}-{i.end_time.ToString("HH:mm")} | <b>{i.subject.brief} - {i.type.ToUpper()}</b> |" +
                   $"\t <a href=\"{link}\">{i.teachers[0].short_name}</a>\n";
 
         return message;
