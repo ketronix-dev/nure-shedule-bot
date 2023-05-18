@@ -81,6 +81,7 @@ namespace NureBotSchedule
                                                 $"Група не була заблокована: {e.Message}");
                                         }
                                     }
+
                                     if (message.Text == "/schedule" ||
                                         message.Text == "/schedule@" + botClient.GetMeAsync().Result.Username)
                                     {
@@ -208,42 +209,41 @@ namespace NureBotSchedule
                                 }
                             }
                         }
+                    }
 
-                        if (message.NewChatMembers is not null)
+                    if (message.NewChatMembers is not null)
+                    {
+                        if (message.NewChatMembers.Any(x => x.Id == botClient.GetMeAsync().Result.Id))
                         {
-                            if (message.NewChatMembers.Any(x => x.Id == botClient.GetMeAsync().Result.Id))
+                            if (DbUtils.checkBlockGroup(message.Chat.Id))
                             {
-                                if (DbUtils.checkBlockGroup(message.Chat.Id))
+                                await botClient.SendTextMessageAsync(
+                                    message.Chat.Id,
+                                    "Ця група була заблокована адміністратором бота, за подробицями пишіть адміністратору бота." +
+                                    "\n \n Будь-ласка, не намагайтеся написати повідомлення для адміністратора в приватну повідомлення боту, адміністратор все одно їх так не побачить.");
+                            }
+                            else
+                            {
+                                if (!DbUtils.checkGroup(message.Chat.Id))
                                 {
-                                    await botClient.SendTextMessageAsync(
+                                    join = await botClient.SendTextMessageAsync(
                                         message.Chat.Id,
-                                        "Ця група була заблокована адміністратором бота, за подробицями пишіть адміністратору бота." +
-                                        "\n \n Будь-ласка, не намагайтеся написати повідомлення для адміністратора в приватну повідомлення боту, адміністратор все одно їх так не побачить.");
+                                        "Для роботи боту треба бути адміном з мінімальними правами (а адміну ботом) " +
+                                        "Після надання прав адміна - тисніть кнопку нижче \n \n" +
+                                        "Якщо нічого не взірвалось, відправилось, чи не надійшло адміну бота на картку - це означає шо бот адмін права не отримав. " +
+                                        "Якщо бот отримав адмінку, то він вам про це скаже.",
+                                        replyMarkup: BotServices.IsAdminKeyboard());
                                 }
                                 else
                                 {
-                                    if (!DbUtils.checkGroup(message.Chat.Id))
-                                    {
-                                        join = await botClient.SendTextMessageAsync(
-                                            message.Chat.Id,
-                                            "Для роботи боту треба бути адміном з мінімальними правами (а адміну ботом) " +
-                                            "Після надання прав адміна - тисніть кнопку нижче \n \n" +
-                                            "Якщо нічого не взірвалось, відправилось, чи не надійшло адміну бота на картку - це означає шо бот адмін права не отримав. " +
-                                            "Якщо бот отримав адмінку, то він вам про це скаже.",
-                                            replyMarkup: BotServices.IsAdminKeyboard());
-                                    }
-                                    else
-                                    {
-                                        await botClient.SendTextMessageAsync(message.Chat.Id, "Я знову тут! \n \n " +
-                                            "Для генерації розкладу використовуйте команди нижче: \n \n" +
-                                            "/schedule - на сьогодні \n" +
-                                            "/schedule_week - на тиждень");
-                                    }
+                                    await botClient.SendTextMessageAsync(message.Chat.Id, "Я знову тут! \n \n " +
+                                        "Для генерації розкладу використовуйте команди нижче: \n \n" +
+                                        "/schedule - на сьогодні \n" +
+                                        "/schedule_week - на тиждень");
                                 }
                             }
                         }
                     }
-
                 }
                 else if (update.Type == UpdateType.CallbackQuery)
                 {
@@ -311,6 +311,7 @@ namespace NureBotSchedule
                     fstream.Write(buffer, 0, buffer.Length);
                 }
             }
+
             string logFilePath = "log.txt";
             FileStream logFileStream = new FileStream(logFilePath, FileMode.Append, FileAccess.Write);
             StreamWriter logStreamWriter = new StreamWriter(logFileStream);
@@ -328,6 +329,7 @@ namespace NureBotSchedule
                 bot = new TelegramBotClient((string)model["botToken"]!);
                 Key = (string)model["apiKey"];
             }
+
             DbUtils.CreateTableOrNo();
 
             Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
