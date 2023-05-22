@@ -32,11 +32,11 @@ public class EventComposer
 
     public static string GetEventType(int id)
     {
-        if (id == 10)
+        if (id == 10 || id == 12)
         {
             return "Пз";
         }
-        else if (id == 20)
+        else if (id == 20 | id == 21 || id == 22 || id == 23 || id == 24)
         {
             return "Лб";
         }
@@ -44,13 +44,17 @@ public class EventComposer
         {
             return "Конс";
         }
-        else if (id == 40)
+        else if (id == 40 || id == 41)
         {
             return "Зал";
         }
-        else if (id == 50)
+        else if (id == 50 || id == 51 || id == 52 || id == 53 || id == 54 || id == 55)
         {
             return "Екз";
+        }
+        else if (id == 60)
+        {
+            return "КП/КР";
         }
 
         return "Лк";
